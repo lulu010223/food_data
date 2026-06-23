@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>대체감미료 식품 시각화</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="topbar" aria-label="요약">
+        <div>
+          <p class="eyebrow">11조 식품 데이터</p>
+          <h1>대체감미료 식품 시각화</h1>
+        </div>
+        <div class="summary-grid" aria-label="데이터 요약">
+          <div class="metric">
+            <span id="productCount">0</span>
+            <small>제품</small>
+          </div>
+          <div class="metric">
+            <span id="categoryCount">0</span>
+            <small>분류</small>
+          </div>
+          <div class="metric">
+            <span id="sweetenerCount">0</span>
+            <small>감미료</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <aside class="sidebar" aria-label="필터">
+          <label class="search-label" for="productSearch">제품 검색</label>
+          <div class="search-box">
+            <input id="productSearch" type="search" placeholder="제품명을 입력하세요" autocomplete="off" />
+            <button id="clearSearch" type="button" title="검색 지우기" aria-label="검색 지우기">×</button>
+          </div>
+          <div id="suggestion" class="suggestion" aria-live="polite"></div>
+
+          <div class="filter-block">
+            <p class="filter-title">식품 분류</p>
+            <div id="categoryFilters" class="chip-list"></div>
+          </div>
+
+          <div class="filter-block">
+            <p class="filter-title">감미료</p>
+            <select id="sweetenerFilter">
+              <option value="">전체 감미료</option>
+            </select>
+          </div>
+
+          <div class="filter-block">
+            <p class="filter-title">정렬</p>
+            <div class="segmented" role="group" aria-label="정렬 기준">
+              <button class="active" type="button" data-sort="name">이름</button>
+              <button type="button" data-sort="calorie">열량</button>
+              <button type="button" data-sort="sugar">당류</button>
+            </div>
+          </div>
+        </aside>
+
+        <section class="content" aria-label="시각화">
+          <section class="panel highlight-panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">선택 제품</p>
+                <h2 id="selectedName">제품을 선택하세요</h2>
+              </div>
+              <span id="selectedBadge" class="badge">검색 결과</span>
+            </div>
+            <div class="product-layout">
+              <div class="details">
+                <dl>
+                  <div>
+                    <dt>제조사</dt>
+                    <dd id="maker">-</dd>
+                  </div>
+                  <div>
+                    <dt>식품 분류</dt>
+                    <dd id="category">-</dd>
+                  </div>
+                  <div>
+                    <dt>기준량</dt>
+                    <dd id="serving">-</dd>
+                  </div>
+                  <div>
+                    <dt>감미료</dt>
+                    <dd id="sweeteners">-</dd>
+                  </div>
+                </dl>
+              </div>
+              <div class="chart-card">
+                <canvas id="barChart" width="520" height="260" aria-label="열량과 당류 막대 그래프"></canvas>
+              </div>
+              <div class="rings">
+                <div class="ring-card">
+                  <canvas id="calorieRing" width="180" height="180" aria-label="칼로리 일일 기준 대비 비율"></canvas>
+                  <p><strong id="calorieValue">0</strong> kcal</p>
+                  <span>2,000 kcal 기준</span>
+                </div>
+                <div class="ring-card">
+                  <canvas id="sugarRing" width="180" height="180" aria-label="당류 일일 기준 대비 비율"></canvas>
+                  <p><strong id="sugarValue">0</strong> g</p>
+                  <span>100 g 기준</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="grid-two">
+            <div class="panel">
+              <div class="panel-head compact">
+                <h2>분류별 제품 수</h2>
+              </div>
+              <canvas id="categoryChart" width="620" height="320" aria-label="분류별 제품 수 그래프"></canvas>
+            </div>
+            <div class="panel">
+              <div class="panel-head compact">
+                <h2>감미료 사용 빈도</h2>
+              </div>
+              <canvas id="sweetenerChart" width="620" height="320" aria-label="감미료 사용 빈도 그래프"></canvas>
+            </div>
+          </section>
+
+          <section class="grid-two">
+            <div class="panel list-panel">
+              <div class="panel-head compact">
+                <h2>제품 목록</h2>
+                <span id="resultCount" class="badge">0개</span>
+              </div>
+              <div id="productList" class="product-list"></div>
+            </div>
+            <div class="panel list-panel">
+              <div class="panel-head compact">
+                <h2>감미료 정보</h2>
+              </div>
+              <div class="search-box subtle">
+                <input id="sweetenerSearch" type="search" placeholder="감미료명 검색" autocomplete="off" />
+              </div>
+              <div id="sweetenerInfo" class="sweetener-info"></div>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <script src="./data.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
